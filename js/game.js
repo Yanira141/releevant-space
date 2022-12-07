@@ -62,6 +62,7 @@ function moverEnemigo(){
 }
 
 
+
 function moverFondo(){
  
     background.setY(background.y + BACKGROUND_VELOCITY)
@@ -69,7 +70,7 @@ function moverFondo(){
 
     if(background.y > background.height + SCREEN_HEIGHT / 2){
       background.setY(background2.y - background.height)
-      
+
       let temporal = background;
       background = background2;
       background2 = temporal;
