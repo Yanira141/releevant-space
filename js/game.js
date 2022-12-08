@@ -2,10 +2,15 @@
  * Variables used during the game.
  */
 let player;
-let enemy;
+let enemy = [];
 let cursors;
 let background;
 let background2;
+let spaceBar;
+let bullet=[];
+let contBullet = 0;
+let frame =-1;
+
 
 /**
  * It prelaods all the assets required in the game.
@@ -22,7 +27,7 @@ function preload() {
 function create() {
   // scene background
   background=this.add.image(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, "sky");
-  background2=this.add.image(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2-1024, "sky");
+  background2=this.add.image(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2- background.height , "sky");
 
   // playet setup
   player = this.add.image(SCREEN_WIDTH / 2, SCREEN_HEIGHT, "player");
@@ -38,6 +43,9 @@ function create() {
 
   //cursors map into game engine
   cursors = this.input.keyboard.createCursorKeys();
+
+  //map space key status
+  spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 }
 
 /**
@@ -46,20 +54,25 @@ function create() {
 function update() {
   moverFondo()
   moverPlayer()
-  moverEnemigo()
+ if(frame<0){
+  disparar(this)}
+  if(contBullet>0){
+    moverBala()
+  }
+
 }
  
 
 
 
 
-function moverEnemigo(){
-  let x = enemy.x + PLAYER_VELOCITY
-      x >SCREEN_HEIGHT- (enemy.height /2) * ENEMY_SCALE
-      x =SCREEN_HEIGHT-(enemy.height /2)* ENEMY_SCALE;
+// function moverEnemigo(){
+//   let x = enemy.x + PLAYER_VELOCITY
+//       x >SCREEN_HEIGHT- (enemy.height /2) * ENEMY_SCALE
+//       x =SCREEN_HEIGHT-(enemy.height /2)* ENEMY_SCALE;
     
-    enemy.setX(x)
-}
+//     enemy.setX(x)
+// }
 
 
 
@@ -112,4 +125,37 @@ function moverPlayer(){
 }
 
 
+function disparar(engine){
+  if(spaceBar.isDown){
+    bullet.push(engine.add.ellipse(player.x, player.y-player.height / 2 * PLAYER_SCALE, -5, 5, 0xf5400a))
+    contBullet++;
+    frame = 10 ;
+  }
+
+}
+
+
+function moverBala(){
+  for(let bala of bullet){
+    bala.setY(bala.y-BULLET_VELOCITY)
+  
+    if(bala.y<(0-bala.height)){
+    bala.destroy()
+    }
+    colision(bala)
+  }
+}
+
+
+function colision(bala){
+  if((bala.x >= enemy.x-(enemy.width*ENEMY_SCALE)/2 &&
+     bala.x <= enemy.x+(enemy.width*ENEMY_SCALE)/2)&&
+    (bala.y >= enemy.y-(enemy.height*ENEMY_SCALE)/2 &&
+     bala.y <= enemy.y+(enemy.height*ENEMY_SCALE)/2)
+  ){
+    enemy.destroy()
+    bala.destroy()
+  }
+  
+}
 
