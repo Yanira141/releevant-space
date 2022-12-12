@@ -1,0 +1,36 @@
+.vuelve{
+    display: none;
+    text-decoration: none;
+    color: cadetblue;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.containers{
+    display: flex;
+}
+
+.pause{
+    display: flex;
+    text-decoration: none;
+    color: cadetblue;
+    
+}
+
+
+.play{
+    display: flex;
+    text-decoration: none;
+    color: cadetblue;
+    
+}
+
+.reinicia{
+    display: flex;
+    text-decoration: none;
+    color: cadetblue;
+}
+
+.barra{
+    display: flex;
+}
